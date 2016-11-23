@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Suggestion from './Suggestion'
-import './App.css';
+import { Container, Card } from 'semantic-ui-react';
 
 class SuggestionsBox extends Component {
 
@@ -18,16 +17,23 @@ class SuggestionsBox extends Component {
 
 	render() {
     const suggestions = this.state.suggestionsToDisplay.map((object, i) => (
-      <div key={object['_id']}>
-        <Suggestion suggestion={object} />
-      </div>
+      {
+        key: object['_id'],
+        href: object['_source']['word'],
+        header: object['_source']['word'].toUpperCase(),
+        meta: object['_source']['type'],
+        description: object['_source']['definition']
+      }
     ));
 
     if (this.state.suggestionsToDisplay.length !== 0) {
       return (
-        <ul>
-          {suggestions}
-        </ul>
+        <Container>
+          <Card.Group
+            itemsPerRow={5}
+            items={suggestions}
+            onClick={this.props.searchClicked} />
+        </Container>
       );
     } else {
       return (
